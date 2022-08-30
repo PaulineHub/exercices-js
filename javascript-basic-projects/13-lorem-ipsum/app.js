@@ -11,3 +11,26 @@ I just told you! You've killed me! Fry! Quit doing the right thing, you jerk! Mi
   `Man braid celiac synth freegan readymade, pitchfork fam salvia waistcoat lomo bitters gentrify four loko. Pitchfork semiotics post-ironic vegan. Tofu meditation microdosing hashtag semiotics venmo. Flexitarian vape tilde taiyaki. Prism poutine farm-to-table, messenger bag vegan taxidermy tattooed sartorial squid jean shorts fixie selvage trust fund vape.`,
   `Rutters Plate Fleet boom chandler Brethren of the Coast handsomely lookout marooned brigantine knave. Buccaneer gangway jack rum loot spyglass line Jack Tar fore gaff. Gaff topmast scuttle ballast swab draught measured fer yer chains dance the hempen jig Chain Shot yardarm.`,
 ];
+
+const form = document.querySelector(".lorem-form");
+const amount = document.getElementById("amount");
+const result = document.querySelector(".lorem-text");
+
+//par defaut un formulaire envoie la reponse avec submit, on doit dc empecher ce cpt pour voir nos reps apparaitre
+// toutes les valeurs renvoyees du form seront des strings, meme si on a type=number dans l'input.
+form.addEventListener('submit', function(e){
+  e.preventDefault();
+  const number = parseInt(amount.value);
+  const random = Math.floor(Math.random() * text.length)
+  
+  if(isNaN(number) || number <= 0 || number > 9){
+    result.innerHTML = `<p class="result">${text[random]}</p>`;
+  }else{
+    let loremText = text.slice(0,number).map(function(paragraph){
+      return `<p class="result">${paragraph}</p>`
+    })
+    .join("");
+    result.innerHTML = loremText;
+  }
+});
+

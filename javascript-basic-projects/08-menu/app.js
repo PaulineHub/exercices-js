@@ -82,62 +82,62 @@ const menu = [
   },
 ];
 
-//target section center and buttons
-const sectionCenter = document.querySelector(".section-center");
-const btnContainer = document.querySelector('.btn-container');
+ //target section center and buttons
+ const sectionCenter = document.querySelector(".section-center");
+ const btnContainer = document.querySelector('.btn-container');
+ 
+ //load les elts du menu et les btns
+ window.addEventListener("DOMContentLoaded", function(){
+   displayMenuItems(menu);
+   displayMenuButtons()
+ });
+ 
+ function displayMenuItems(menuItems){
+   let displayMenu = menuItems.map(item => {
+     return `<article class="menu-item">
+           <img src=${item.img} class="photo"alt=${item.title}>
+           <div class="item-info">
+           <header>
+           <h4>${item.title}</h4>
+           <h4 class="price">${item.price}</h4>
+           </header>
+           <p>${item.desc}</p>
+           </div>
+           </article>`
+     }).join("");
+     sectionCenter.innerHTML = displayMenu
+ }
+ 
+ function displayMenuButtons(){
+   //afficher les btns ds html
+   const categories = menu.reduce(function(acc, cur){
+     if(!acc.includes(cur.category)){
+       acc.push(cur.category);
+     }
+     return acc;
+   }, ['all']);
+   const categoryBtns = categories.map(category =>{
+     return `<button class="filter-btn" type= "button" data-id="${category}">${category}</button>`
+   }).join('');
+   btnContainer.innerHTML = categoryBtns;
+ 
+   // filter items
+   // !! on ne peut pas acceder aux btns avant de les avoir ajoutes dans le html  
+   const filterBtns = document.querySelectorAll(".filter-btn");
+   filterBtns.forEach(btn =>{
+     btn.addEventListener("click", function(e){
+       const category = e.currentTarget.dataset.id;
+       const menuCategory = menu.filter(menuItem =>{
+         if(menuItem.category === category){
+           return menuItem;
+         }
+       });
+       if(category === 'all'){
+         displayMenuItems(menu);
+       }else{
+         displayMenuItems(menuCategory);
+       }
+     });
+   });
+ }
 
-//load les elts du menu et les btns
-window.addEventListener("DOMContentLoaded", function(){
-  displayMenuItems(menu);
-  displayMenuButtons()
-});
-
-function displayMenuItems(menuItems){
-  let displayMenu = menuItems.map(function(item){
-    return `<article class="menu-item">
-          <img src=${item.img} class="photo"alt=${item.title}>
-          <div class="item-info">
-          <header>
-          <h4>${item.title}</h4>
-          <h4 class="price">${item.price}</h4>
-          </header>
-          <p>${item.desc}</p>
-          </div>
-          </article>`
-    });
-    displayMenu = displayMenu.join("");
-    sectionCenter.innerHTML = displayMenu
-}
-
-function displayMenuButtons(){
-  //afficher les btns ds html
-  const categories = menu.reduce(function(values, item){
-    if(!values.includes(item.category)){
-      values.push(item.category);
-    }
-    return values;
-  }, ['all']);
-  const categoryBtns = categories.map(function(category){
-    return `<button class="filter-btn" type= "button" data-id="${category}">${category}</button>`
-  }).join('');
-  btnContainer.innerHTML = categoryBtns;
-
-  // filter items
-  // !! on ne peut pas acceder aux btns avant de les avoir ajoutes dans le html  
-  const filterBtns = document.querySelectorAll(".filter-btn");
-  filterBtns.forEach(function(btn){
-    btn.addEventListener("click", function(e){
-      const category = e.currentTarget.dataset.id;
-      const menuCategory = menu.filter(function(menuItem){
-        if(menuItem.category === category){
-          return menuItem;
-        }
-      });
-      if(category === 'all'){
-        displayMenuItems(menu);
-      }else{
-        displayMenuItems(menuCategory);
-      }
-    });
-  });
-}

@@ -52,8 +52,6 @@ const reviews = [
   let currentItem = 0;
   
   //load intial item
-  // The DOMContentLoaded event fires when the initial HTML document has been completely loaded 
-  // window ??
   window.addEventListener("DOMContentLoaded", function(){
    showPerson();
   });
